@@ -41,11 +41,20 @@ class WorkoutSession:
         return []
     
     def save_sessions(sessions):
-    # Open the file and write all sessions into it as JSON text
+    
        file = open(FILE_NAME, "w")
        json.dump(sessions, file, indent=2)
        file.close()
       print("Sessions saved to workouts.txt")
 
+     
+# VOLUME CALCULATION
+# volume = sets x reps x weight
+
+def calculate_volume(sets, reps, weight):
+
+    if weight >= 1:
+    volume = sets * reps * weight
+    return volume
 
 
