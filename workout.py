@@ -1,36 +1,51 @@
+# workout.py
+# Project 9 - Workout Tracker
+# Tech4Girls Backend Cohort 4
+
+
 import json     #it needed to convert python lists and dictionaries into a text and vice versa
-import os        #it verify if workout file is on my computer
 from datetime import datetime, timedelta   # to auto_capture log out sessions
 
 FILE_NAME = "workouts.txt"
+class WorkoutSession:
 
-def load_sessions():
-    """
-    Reads workouts.txt and returns the list of saved sessions.
-    If the file doesn't exist yet, it returns an empty list.
-    Each session is a dictionary with a date and a list of exercises.
-    """
-    if not os.path.exists(FILE_NAME):
-        return []
+    def __init__(self, date, exercises):       # The date the workout happened
+        self.date = date                       # A list of exercises done in this session
+        self.exercises = exercises
 
-    with open(FILE_NAME, "r") as file:
+    def get_total_volume(self):                 # Add up the volume of every exercise in this session
+        total = 0
+        for exercise in self.exercises:
+            total = total + exercise["volume"]
+        return total
+
+    def to_dictionary(self):                   # Convert this session into a dictionary so we can save it to a file
+        return {
+            "date": self.date,
+            "exercises": self.exercises,
+           "total_volume": self.get_total_volume()
+        }
+    def load_sessions():                         # Try to open the file and read the saved sessions
+        try:                                        # If the file does not exist yet, just return an empty list
+        file = open(FILE_NAME, "r")
         content = file.read().strip()
- return []
+        file.close()                             # If the file is empty, return an empty list   
 
-    sessions = json.loads(content)
-    return sessions
+        if content == "":
+            return []
 
-def check_personal_best(sessions, new_sessions):
-    """
-    compare each  exercise in new_sessions against  all historical sessions and print a message if a new personal best volume 
-    is achieved.
-    """
-  for exercise in new_sessions["exercises"]
-      exercise_name = exercise["name"]
-      current_weight = calculate_volume(exercise)
-    # Cpllect historical volume for the same exercise name 
-historical_volume = [] 
+    sessions = json.loads(content)            # Convert the text back into a Python list
+        return sessions
 
+    except FileNotFoundError:
+        return []
+    
+    def save_sessions(sessions):
+    # Open the file and write all sessions into it as JSON text
+       file = open(FILE_NAME, "w")
+       json.dump(sessions, file, indent=2)
+       file.close()
+      print("Sessions saved to workouts.txt")
 
 
 
