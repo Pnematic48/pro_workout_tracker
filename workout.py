@@ -129,3 +129,16 @@ def weekly_summary(sessions):
         avg_volume = total_volume / len(weekly_sessions)
         print("Average Session Volume:", avg_volume)
 
+def view_session_by_date(sessions):
+    # Ask user for a date
+    date_input = input("Enter session date (YYYY-MM-DD): ")
+
+    # Search for session with that date
+    for session in sessions:
+        if session["date"] == date_input:
+            print("Session on", session["date"])
+            for exercise in session["exercises"]:
+                print(f"{exercise['name']} - Sets: {exercise['sets']}, Reps: {exercise['reps']}, Weight: {exercise['weight']}")
+            return
+
+    print("No session found for that date.")
