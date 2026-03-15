@@ -142,3 +142,37 @@ def view_session_by_date(sessions):
             return
 
     print("No session found for that date.")
+def main():
+    sessions = load_sessions()  # Load past sessions from file
+
+    while True:
+        print("\nWorkout Tracker Menu")
+        print("1. Log a new session")
+        print("2. View all sessions")
+        print("3. Weekly summary")
+        print("4. View session by date")
+        print("5. Save and exit")
+
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            new_session = log_session(sessions)
+            check_personal_bests(sessions, new_session)
+            sessions.append(new_session)
+
+        elif choice == "2":
+            view_all_sessions(sessions)
+
+        elif choice == "3":
+            weekly_summary(sessions)
+
+        elif choice == "4":
+            view_session_by_date(sessions)
+
+        elif choice == "5":
+            save_sessions(sessions)
+            print("Sessions saved. Goodbye!")
+            break
+
+        else:
+            print("Invalid choice, try again.")
