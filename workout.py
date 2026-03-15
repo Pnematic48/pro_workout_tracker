@@ -1,3 +1,6 @@
+# workout.py
+# Project 9 - Workout Tracker
+# Tech4Girls Backend Cohort 4
 
 
 import datetime
@@ -49,6 +52,4 @@ def log_session(sessions):
     sessions.append(session)
 
     return session
-
-
 
