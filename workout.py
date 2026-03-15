@@ -76,13 +76,10 @@ def view_all_sessions(sessions): #function for viewing sessions
    
 
 def check_personal_bests(sessions, new_session):
-    # Loop through each exercise in the new session
-    for exercise in new_session["exercises"]:
-        # Calculate the volume of the current exercise
-        new_volume = calculate_volume(exercise)
-
-        # Track the highest volume seen so far for this exercise
-        best_volume = 0
+    
+    for exercise in new_session["exercises"]:    # Loop through each exercise in the new session
+        new_volume = calculate_volume(exercise)   # Calculate the volume of the current exercise
+        best_volume = 0                           # Track the highest volume seen so far for this exercise
     for session in sessions:
         for old_exercise in session["exercises"]:
                 if old_exercise["name"] == exercise["name"]:
@@ -90,6 +87,45 @@ def check_personal_bests(sessions, new_session):
                 if old_volume > best_volume:
                         best_volume = old_volume
 
-        # Compare new volume with best volume
-        if new_volume > best_volume:
+        
+        if new_volume > best_volume:               # Compare new volume with best volume
             print(f"New Personal Best for {exercise['name']}!")
+def weekly_summary(sessions):  
+    today = datetime.date.today()                    # Get today’s date
+    start_of_week = today - datetime.timedelta(days=today.weekday())  # Find the start of the current week (Monday)
+
+    weekly_sessions = []
+    total_volume = 0
+    exercise_counter = {}
+
+    for session in sessions:                    # Filter sessions that happened this week
+        session_date = datetime.datetime.strptime(session["date"], "%Y-%m-%d").date()
+        if session_date >= start_of_week:
+            weekly_sessions.append(session)
+
+            # Calculate total volume for this session
+            session_volume = 0
+            for exercise in session["exercises"]:
+                volume = calculate_volume(exercise)
+                session_volume += volume
+
+                # Count how many times each exercise appears
+                if exercise["name"] not in exercise_counter:
+                    exercise_counter[exercise["name"]] = 0
+                exercise_counter[exercise["name"]] += 1
+
+            total_volume += session_volume
+
+    # Print summary
+    print("Weekly Summary:")
+    print("Total Sessions:", len(weekly_sessions))
+    print("Total Volume:", total_volume)
+
+    if exercise_counter:
+        most_trained = max(exercise_counter, key=exercise_counter.get)
+        print("Most Trained Exercise:", most_trained)
+
+    if weekly_sessions:
+        avg_volume = total_volume / len(weekly_sessions)
+        print("Average Session Volume:", avg_volume)
+
