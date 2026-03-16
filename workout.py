@@ -79,7 +79,8 @@ def check_personal_bests(sessions, new_session):
     
     for exercise in new_session["exercises"]:    # Loop through each exercise in the new session
         new_volume = calculate_volume(exercise)   # Calculate the volume of the current exercise
-        best_volume = 0                           # Track the highest volume seen so far for this exercise
+        best_volume = 0 
+        old_volume = 0                          # Track the highest volume seen so far for this exercise
     for session in sessions:
         for old_exercise in session["exercises"]:
                 if old_exercise["name"] == exercise["name"]:
